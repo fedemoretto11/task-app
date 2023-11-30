@@ -18,12 +18,23 @@ export default function App() {
     setTextItem('')
   }
 
+  const onSelectItemHandler = (id) => {
+    setModalVisible(!modalVisible);
+    setItemSelectedToDelete(itemList.find(item => item.id == id))
+  }
+
+  const deleteItem = () => {
+    setItemList(itemList.filter((item) => item.id !== itemSelectedToDelete.id))
+    setModalVisible(!modalVisible);
+  }
+
+
   const renderItemList = ({item}) => (
     <View style={styles.taskItem}>
       <Text>{item.value}</Text>
       <Button 
         title='X'
-        onPress={() => {setModalVisible(true)}}
+        onPress={() => {onSelectItemHandler(item.id)}}
         color='#9F4242'
       ></Button>
     </View>
@@ -54,14 +65,13 @@ export default function App() {
         </View>
       </View>
       <Modal animationType="slide" visible={modalVisible}>
-      {/* <Modal animationType="slide" visible={true}> */}
         <View style={styles.modalMessage}>
           <Text style={styles.modalMessageEliminara}>Se eliminará: </Text>
-          <Text style={styles.modalMessageProducto}>Comprar tomates colorados de lo quica</Text>
+          <Text style={styles.modalMessageProducto}>{itemSelectedToDelete.value}</Text>
         </View>
         <View>
-          <Button title="Cancelar" color="#ccc" onPress={() => {setModalVisible(false)}}/>
-          <Button title="Si, eliminar" color="#ef233c" onPress={() => {setModalVisible(false)}}/>
+          <Button title="Cancelar" color="#ccc" onPress={() => {setModalVisible(!modalVisible)}}/>
+          <Button title="Si, eliminar" color="#ef233c" onPress={() => {deleteItem()}}/>
         </View>
       </Modal>
     </>
