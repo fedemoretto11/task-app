@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Button, FlatList, Modal, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
+import DeleteModal from './components/DeleteModal';
 
 export default function App() {
 
@@ -64,16 +65,12 @@ export default function App() {
           />
         </View>
       </View>
-      <Modal animationType="slide" visible={modalVisible}>
-        <View style={styles.modalMessage}>
-          <Text style={styles.modalMessageEliminara}>Se eliminará: </Text>
-          <Text style={styles.modalMessageProducto}>{itemSelectedToDelete.value}</Text>
-        </View>
-        <View>
-          <Button title="Cancelar" color="#ccc" onPress={() => {setModalVisible(!modalVisible)}}/>
-          <Button title="Si, eliminar" color="#ef233c" onPress={() => {deleteItem()}}/>
-        </View>
-      </Modal>
+      <DeleteModal 
+        isVisible={modalVisible}
+        itemSelected={itemSelectedToDelete}
+        onDeleteItemEvent={deleteItem}
+        setModalVisibleEvent={setModalVisible}
+      />
     </>
   );
 }
@@ -101,17 +98,5 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     backgroundColor: "#DFB7B7",
     borderRadius: 10,
-  },
-  modalMessage: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalMessageEliminara: {
-    fontSize: 25,
-  },
-  modalMessageProducto: {
-    fontSize: 35,
-    textAlign: 'center'
   }
 });
